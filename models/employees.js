@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
 const employeeSchema = new mongoose.Schema({
-  _id:{
-    type: mongoose.Schema.Types.ObjectId,
-  },
   name: {
     type: String,
     required: true,
@@ -23,6 +20,8 @@ const employeeSchema = new mongoose.Schema({
     },
   ],
 });
+
+employeeSchema.set("autoIndex", true);
 
 const Employee = mongoose.model("Employee", employeeSchema);
 

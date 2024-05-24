@@ -12,21 +12,18 @@ exports.createEmployee = async (req, res) => {
     }
     const employee = new Employee(req.body);
     await employee.save();
-    res.status(201).json(employee);
+    res.status(201).json({ success: true, employee });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "please provide valid data" });
   }
 };
 
 // Get all employees
 exports.getAllEmployees = async (req, res) => {
   try {
-    const loggedInUserId = req.user._id; // Assuming the user's ObjectID is stored in req.user._id
+    const employees = await Employee.find();
 
-    // Find employees where the manager field matches the logged-in user's ObjectID
-    const employees = await Employee.find({ manager: loggedInUserId });
-
-    res.json(employees);
+    res.json({ success: true, employees });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -39,7 +36,7 @@ exports.getEmployeeById = async (req, res) => {
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
-    res.json(employee);
+    res.json({ success: true, employee });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -54,7 +51,7 @@ exports.updateEmployeeById = async (req, res) => {
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
-    res.json(employee);
+    res.json({ success: true, employee });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -67,7 +64,7 @@ exports.deleteEmployeeById = async (req, res) => {
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
-    res.json({ message: "Employee deleted successfully" });
+    res.json({ success: true, message: "Employee deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
