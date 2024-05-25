@@ -10,7 +10,7 @@ router.post('/create', verifyToken, employeeController.createEmployee);
 router.get('/view', verifyToken, employeeController.getAllEmployees);
 
 // Get an employee by ID
-router.get('/view/:id', verifyToken, employeeController.getEmployeeById);
+router.put('/view/manager', verifyToken, employeeController.getManager);
 
 // Update an employee by ID
 router.put('/update/:id', verifyToken, employeeController.updateEmployeeById);

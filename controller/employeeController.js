@@ -1,15 +1,10 @@
 const Employee = require("../models/employees");
+const User = require("../models/user");
 
 // Create a new employee
 exports.createEmployee = async (req, res) => {
   try {
-    const existingEmployee = await Employee.findOne({
-      user_name: req.body.user_name,
-    });
-    if (existingEmployee) {
-      // If username exists, send a 409 Conflict response
-      return res.status(409).json({ error: "Username already exists" });
-    }
+
     const employee = new Employee(req.body);
     await employee.save();
     res.status(201).json({ success: true, employee });
@@ -30,9 +25,11 @@ exports.getAllEmployees = async (req, res) => {
 };
 
 // Get an employee by ID
-exports.getEmployeeById = async (req, res) => {
+exports.getManager = async (req, res) => {
   try {
-    const employee = await Employee.findById(req.params.id);
+    const employee = await Employee.find({
+      isManager: true,      
+    });
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
